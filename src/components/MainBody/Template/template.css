@@ -1,0 +1,36 @@
+.template_section {
+    background: #f4f4f9;
+    padding-bottom: 40px;
+    padding-top: 7px;
+}
+.template_top, .template_body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 180px;
+    margin-right: 180px;
+}
+
+.template_body {
+    margin-top: 15px;
+}
+
+.template-right , .gallery_button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.template-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 15px;
+    
+}
+
+.template-item:hover img {
+    outline: 2px solid #a74bfc;
+}

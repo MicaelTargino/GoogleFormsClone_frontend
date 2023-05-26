@@ -1,0 +1,11 @@
+.list_item {
+    margin-right: 10px;
+    transition: all .2s;
+    cursor: pointer;
+}
+
+.list_item:hover {
+    background-color: #f4f4f9;
+
+    color: black;
+}
