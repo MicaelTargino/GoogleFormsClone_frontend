@@ -1,0 +1,28 @@
+.form_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Open Sans', Roboto, Arial, sans-serif;
+}
+.form_header_left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.form_name {
+    border: none;
+    height: 40px;
+    width: 150px;
+    font-size: 18px;
+    padding: 0 5px;
+}
+
+::placeholder {
+    color: black;
+}
+
+.form_header_icon {
+    font-size: 22px;
+}
