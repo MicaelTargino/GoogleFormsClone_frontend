@@ -7,14 +7,13 @@ import SearchIcon from '@material-ui/icons/Search';
 import AppsIcon from '@material-ui/icons/Apps';
 import Avatar from '@material-ui/core/Avatar';
 import avatarImage from '../../assets/avatar.jpeg';
+import TemporaryDrawer from '../TemporaryDrawer/TemporaryDrawer';
 
 const Header = () => {
     return (
         <div className="header">
             <div className="header_info">
-                <IconButton>
-                    <MenuIcon />
-                </IconButton> 
+                < TemporaryDrawer />
                 <img src={FormLogo} alt="logo" width="40" className="form_img" />
                 <div className="info">
                     Forms
