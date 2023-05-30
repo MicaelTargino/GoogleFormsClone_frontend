@@ -4,25 +4,41 @@ import {Select, Switch,Typography,IconButton,Accordion, AccordionSummary, Accord
 import { BsTrash, BsFileText, FcRightUp } from 'react-icons';
 import DeleteIcon from '@material-ui/icons/Delete';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
-
+import {v4 as uuid} from 'uuid';
 import './QuestionForm.css';
 
 const QuestionForm = ({editingMode}) => {
-    // const [editingMode, setEditingMode] = useState(true);
     const [questions, setQuestions] = useState([
         {
-            questionText: 'Qual a capital da Paraíba?',
-            questionType: 'radio',
+            id: 1,
+            questionText: '',
+            questionType: 'text',
+            options: [],
+            open: true,
+            required: true
+        }
+    ]);
+    const deleteQuestion = (id) => {
+        let newQuestions = [];
+        questions.map((question, idx) => {
+            question.id !== id && newQuestions.push(question)
+        });
+        setQuestions(newQuestions);
+    };
+    const createEmptyQuestion = () => {
+        const uniqueIdentifier = uuid();
+        let newQuestions = [...questions, {
+            id: uniqueIdentifier,
+            questionText: '',
+            questionType: 'text',
             options: [
-                {optionText: 'Recife'},
-                {optionText: 'Fortaleza'},
-                {optionText: 'Aracaju'},
-                {optionText: 'Natal'},
+                
             ],
             open: true,
             required: true
-        },
-    ]);
+        }];
+        setQuestions(newQuestions);
+    }
     return (
         <>
         <div className="question_form">
@@ -42,13 +58,14 @@ const QuestionForm = ({editingMode}) => {
                 <div className="question_boxes">
                     <AccordionDetails className="add_question">
                             <div className="add_question_top">
-                                <input type="text" className="question" placeholder="Question" value={ques.questionText}></input>
+                            {/* onFocus={ques.questionText !== '' ? ((e) => e.target.value = ques.questionText) : () =>{}} */}
+                                <input type="text" className="question" placeholder={ques.questionText == '' ? "Type a Question": ques.questionText} onChange={(e) => {ques.questionText = e.target.value}} defaultValue={ques.questionText}></input>
                                 <CropOriginal style={{ color:'#5f6368' }} />
                                 <div>
-                                <Select className="select" style={{ color:'#5f6368', fontSize: '13px'}}>
+                                <Select className="select" style={{ color:'#5f6368', fontSize: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                                     <MenuItem id="text" value="text"><Subject style={{ marginRight: '10px' }}/> Paragraph</MenuItem>
                                     <MenuItem id="checkbox" value="checkbox"><CheckBox style={{ marginRight: '10px', color: '#70757a' }} checked></CheckBox> Checkbox</MenuItem>
-                                    <MenuItem id="radio" value="radio"><Radio style={{ marginRight: '10px', color: '#70757a' }} /> Multiple Choices</MenuItem>
+                                    <MenuItem id="radio" value="radio"><Radio style={{ margin: '0px', color: '#70757a' }} /> Multiple Choices</MenuItem>
                                 </Select>
                                 </div>
                                 {/* <IconButton>
@@ -77,22 +94,29 @@ const QuestionForm = ({editingMode}) => {
                                 )
                             })}
                             <div className="add_footer">
+                                {ques.questionType !== 'text' ?
                                 <div className="add_question_bottom_left" style={{ paddingTop: '17px' }}>
                                     <Button size="small" style={{ textTransform: "none", color: '#4285f4', fontSize: '13px', fontWeight: '600' }}>
                                         <QuestionAnswerIcon />
                                          Answer Key
                                     </Button>
                                 </div>
+                                :
+                                <div></div>
+                                }
                                 <div className="add_question_bottom">
-                                    <IconButton aria-label="delete">
-                                        <DeleteIcon />
-                                    </IconButton>
                                         <span style={{ color: '#5f6368', fontSize: '13px', fontFamily: 'Open Sans, Arial, sans-serif' }}>Required</span>
-                                        <FormControlLabel style={{marginLeft: '15px'}} label="" control={<Switch color="primary" defaultChecked={ques.required} />} onChange={() => {ques.required = !ques.required }}/>
+                                        <FormControlLabel style={{margin: '0px'}} label="" control={<Switch color="primary" defaultChecked={ques.required} />} onChange={() => {ques.required = !ques.required }}/>
+                                        <IconButton onClick={() => deleteQuestion(ques.id)} aria-label="delete">
+                                            <DeleteIcon />
+                                        </IconButton>
+                                        <IconButton onClick={() => { createEmptyQuestion() }}>
+                                            <Add /> 
+                                        </IconButton>
                                         {/* <Switch label="checked" name="checkedA" color="primary" checked={ques.required}></Switch> */}
-                                    <IconButton>
+                                    {/* <IconButton>
                                         <MoreVert />
-                                    </IconButton>    
+                                    </IconButton>     */}
 
                                 </div>
                             </div>
@@ -105,8 +129,10 @@ const QuestionForm = ({editingMode}) => {
                 {ques.open && (
                     <div className="saved_questions">
                         <Typography style={{ fontSize:'15px', fontWeight: '400', letterSpacing: '.1px', lineHeight: '24px',paddingBottom: '8px' }}>
-                            {i+1}. {ques.questionText}
+                            {i+1}. {ques.questionText} {ques.required && <span style={{ color: 'red' }}>*</span>}
                         </Typography>
+
+                        {ques.questionType == 'text' && (<input type="text" /> )}
 
                         {ques.options.map((option, j) =>(
                             <div key={j}>
