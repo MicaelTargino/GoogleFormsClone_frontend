@@ -9,6 +9,7 @@ import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import './QuestionForm.css';
 
 const QuestionForm = () => {
+    const [editingMode, setEditingMode] = useState(true);
     const [questions, setQuestions] = useState([
         {
             questionText: 'Qual a capital da Paraíba?',
@@ -21,33 +22,24 @@ const QuestionForm = () => {
             ],
             open: true,
             required: false
-        }
+        },
     ]);
-    const questionsUI = () => {
-        return questions.map((ques, i) => (
-            <Accordion key={i} expanded={ques.open} className={ques.open && 'add_bolder'}>
-                {/* <AccordionSummary aria-controls="panella-content" id="panella-header" elevation={1} style={{width: '100%'}}>
-                {ques.open && (
-                    <div className="saved_questions">
-                        <Typography style={{ fontSize:'15px', fontWeight: '400', letterSpacing: '.1px', lineHeight: '24px',paddingBottom: '8px' }}>
-                            {i+1}. {ques.questionText}
-                        </Typography>
-
-                        {ques.options.map((option, j) =>(
-                            <div key={j}>
-                                <div style={{display: 'flex'}}>
-                                    <FormControlLabel style={{ marginLeft: '2px', marginBottom: '5px', marginRight: '0' }} control={<input type={ques.questionType} name={`question-${i}`}></input>} color="primary" required={ques.required}>
-                                    </FormControlLabel>
-                                        <Typography style={{ marginLeft: '2px' ,fontFamily: 'Roboto, Arial, sans-serif', fontSize: '13px', fontWeight: '400', letterSpacing: '.2px', lineHeight: '20px', color:'#202124' }}>
-                                            {option.optionText}
-                                        </Typography>
-                                </div>
-                            </div>
-                        )
-                        )}
+    return (
+        <>
+        <div className="question_form">
+            <br/>
+            <div className="section">
+                <div className="question_title_section">
+                    <div className="question_form_top">
+                        <input type="text" className="question_form_top_name" style={{ color: 'black' }} placeholder="Untitled document"/>
+                        <input type="text" className="question_form_top_desc" placeholder="Add Form Description"/>
                     </div>
-                )}
-                </AccordionSummary> */}
+                </div>
+               
+
+            {editingMode ? questions.map((ques, i) => (
+            <Accordion key={i} expanded={ques.open} className={ques.open && 'add_bolder'}>
+
                 <div className="question_boxes">
                     <AccordionDetails className="add_question">
                             <div className="add_question_top">
@@ -97,7 +89,7 @@ const QuestionForm = () => {
                                         <DeleteIcon />
                                     </IconButton>
                                         <span style={{ color: '#5f6368', fontSize: '13px', fontFamily: 'Open Sans, Arial, sans-serif' }}>Required</span>
-                                        <Switch name="checkedA" color="primary" checked></Switch>
+                                        <Switch name="checkedA" color="primary" checked={ques.required}></Switch>
                                     <IconButton>
                                         <MoreVert />
                                     </IconButton>    
@@ -107,21 +99,33 @@ const QuestionForm = () => {
                     </AccordionDetails>
                 </div>
             </Accordion>
-        ))
-    }
-    return (
-        <>
-        <div className="question_form">
-            <br/>
-            <div className="section">
-                <div className="question_title_section">
-                    <div className="question_form_top">
-                        <input type="text" className="question_form_top_name" style={{ color: 'black' }} placeholder="Untitled document"/>
-                        <input type="text" className="question_form_top_desc" placeholder="Add Form Description"/>
-                    </div>
-                </div>
+        )) : questions.map((ques, i) => (
+            <Accordion key={i} expanded={ques.open} className={ques.open && 'add_bolder'}>
+                 <AccordionSummary aria-controls="panella-content" id="panella-header" elevation={1} style={{width: '100%'}}>
+                {ques.open && (
+                    <div className="saved_questions">
+                        <Typography style={{ fontSize:'15px', fontWeight: '400', letterSpacing: '.1px', lineHeight: '24px',paddingBottom: '8px' }}>
+                            {i+1}. {ques.questionText}
+                        </Typography>
 
-                {questionsUI()}
+                        {ques.options.map((option, j) =>(
+                            <div key={j}>
+                                <div style={{display: 'flex'}}>
+                                    <FormControlLabel style={{ marginLeft: '2px', marginBottom: '5px', marginRight: '0' }} control={<input type={ques.questionType} name={`question-${i}`}></input>} color="primary" required={ques.required}>
+                                    </FormControlLabel>
+                                        <Typography style={{ marginLeft: '2px' ,fontFamily: 'Roboto, Arial, sans-serif', fontSize: '13px', fontWeight: '400', letterSpacing: '.2px', lineHeight: '20px', color:'#202124' }}>
+                                            {option.optionText}
+                                        </Typography>
+                                </div>
+                            </div>
+                        )
+                        )}
+                    </div>
+                )}
+                </AccordionSummary>
+            </Accordion>
+            ))}
+
             </div>
         </div>
         </>
