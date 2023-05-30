@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-import {CropOriginal, CheckBox, ShortText, Subject, MoreVert, FilterNone, AddCircleOutline, OndemandVideo, TextFields, Close} from '@material-ui/icons';
+import {CropOriginal, CheckBox, ShortText, Subject, MoreVert, Add ,FilterNone, AddCircleOutline, OndemandVideo, TextFields, Close} from '@material-ui/icons';
 import {Select, Switch,Typography,IconButton,Accordion, AccordionSummary, AccordionDetails, Button, Radio, FormControlLabel, MenuItem} from '@material-ui/core';
 import { BsTrash, BsFileText, FcRightUp } from 'react-icons';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -53,11 +53,16 @@ const QuestionForm = () => {
                             <div className="add_question_top">
                                 <input type="text" className="question" placeholder="Question" value={ques.questionText}></input>
                                 <CropOriginal style={{ color:'#5f6368' }} />
+                                <div>
                                 <Select className="select" style={{ color:'#5f6368', fontSize: '13px'}}>
                                     <MenuItem id="text" value="text"><Subject style={{ marginRight: '10px' }}/> Paragraph</MenuItem>
                                     <MenuItem id="checkbox" value="checkbox"><CheckBox style={{ marginRight: '10px', color: '#70757a' }} checked></CheckBox> Checkbox</MenuItem>
                                     <MenuItem id="radio" value="radio"><Radio style={{ marginRight: '10px', color: '#70757a' }} /> Multiple Choices</MenuItem>
                                 </Select>
+                                </div>
+                                {/* <IconButton>
+                                <Add />
+                                </IconButton> */}
                             </div>
                             {ques.options.map((op, j) => {
                                 return (
@@ -88,10 +93,6 @@ const QuestionForm = () => {
                                     </Button>
                                 </div>
                                 <div className="add_question_bottom">
-                                    <IconButton aria-label="copy">
-                                        Copy
-                                    </IconButton>
-
                                     <IconButton aria-label="delete">
                                         <DeleteIcon />
                                     </IconButton>

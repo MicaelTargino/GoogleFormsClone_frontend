@@ -27,7 +27,6 @@
     width: 100%;
     border: none;
     outline: none;
-    /* border-bottom: 1px solid #f4f4f9; */
     color: black;
     height: 35px;
 }
@@ -61,7 +60,7 @@
     flex-direction: column;
     padding-top: 0px;
     margin-left: 10px;
-    width: 93%
+    width: 93%;
 }
 
 .add_question_top {
