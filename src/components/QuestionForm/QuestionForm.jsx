@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from 'react';
-
+import React, {useState, useEffect, useContext} from 'react';
 import {CropOriginal, CheckBox, ShortText, Subject, MoreVert, Add ,FilterNone, AddCircleOutline, OndemandVideo, TextFields, Close} from '@material-ui/icons';
 import {Select, Switch,Typography,IconButton,Accordion, AccordionSummary, AccordionDetails, Button, Radio, FormControlLabel, MenuItem} from '@material-ui/core';
 import { BsTrash, BsFileText, FcRightUp } from 'react-icons';
@@ -8,8 +7,8 @@ import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 
 import './QuestionForm.css';
 
-const QuestionForm = () => {
-    const [editingMode, setEditingMode] = useState(true);
+const QuestionForm = ({editingMode}) => {
+    // const [editingMode, setEditingMode] = useState(true);
     const [questions, setQuestions] = useState([
         {
             questionText: 'Qual a capital da Paraíba?',

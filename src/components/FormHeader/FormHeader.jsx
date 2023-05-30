@@ -5,14 +5,14 @@ import { AiOutlineEye } from 'react-icons/ai';
 import { IconButton } from '@material-ui/core';
 import avatarimage from '../../assets/avatar.jpeg';
 import { IoMdFolderOpen } from 'react-icons/io';
-
+import EditIcon from '@material-ui/icons/Edit';
 import ColorLensIcon from '@material-ui/icons/ColorLens';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 
 import './FormHeader.css';
-const FormHeader = () => {
+const FormHeader = ({ editingMode ,changeEditingMode}) => {
     const [doc_name, setDoc_name] = useState('');
     const handleChange = (e) => {
         setDoc_name(e.target.value);
@@ -31,8 +31,12 @@ const FormHeader = () => {
                 <IconButton>
                     <ColorLensIcon size="small"  className="form_header_icon"/>
                 </IconButton>
-                <IconButton>
-                    <AiOutlineEye className="form_header_icon"/>
+                <IconButton onClick={() => changeEditingMode()}>
+                    {editingMode ? 
+                    <AiOutlineEye  className="form_header_icon"/>
+                    :
+                    <EditIcon className="form_header_icon" />
+                    }
                 </IconButton>
                 <IconButton>
                     <FiSettings className="form_header_icon"/>
