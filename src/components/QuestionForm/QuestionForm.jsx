@@ -21,7 +21,7 @@ const QuestionForm = () => {
                 {optionText: 'Natal'},
             ],
             open: true,
-            required: false
+            required: true
         },
     ]);
     return (
@@ -89,7 +89,8 @@ const QuestionForm = () => {
                                         <DeleteIcon />
                                     </IconButton>
                                         <span style={{ color: '#5f6368', fontSize: '13px', fontFamily: 'Open Sans, Arial, sans-serif' }}>Required</span>
-                                        <Switch name="checkedA" color="primary" checked={ques.required}></Switch>
+                                        <FormControlLabel style={{marginLeft: '15px'}} label="" control={<Switch color="primary" defaultChecked={ques.required} />} onChange={() => {ques.required = !ques.required }}/>
+                                        {/* <Switch label="checked" name="checkedA" color="primary" checked={ques.required}></Switch> */}
                                     <IconButton>
                                         <MoreVert />
                                     </IconButton>    
