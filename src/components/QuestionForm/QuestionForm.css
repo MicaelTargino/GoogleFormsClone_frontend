@@ -137,8 +137,3 @@
     align-items: center;
     justify-content: space-between;
 }
-
-.add_question_bottom_left, .add_question_bottom {
-    border-top: 1px solid #ccc;
-}
-
