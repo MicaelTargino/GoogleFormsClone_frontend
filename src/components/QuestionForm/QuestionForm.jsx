@@ -17,9 +17,32 @@ const QuestionForm = ({editingMode}) => {
                 // {optionText: 'Teste'}
             ],
             open: true,
-            required: true
+            required: true,
+            answer: {
+                status: 'undef', // undef, answer_known, answer_to_be_defined
+                answer: []
+            }
         }
     ]);
+    const defineAnswers = (idx) => {
+        let newQuestions = [...questions];
+        newQuestions[idx].answer.status = 'answer_to_be_defined';
+        console.log(newQuestions[idx].answer.status);
+        setQuestions(newQuestions);
+    }
+
+    const saveAnswer = (idx) => {
+        let newQuestions = [...questions];
+        const optionMarked = newQuestions[idx].options.filter((element) => element.checked == true);
+        console.log(optionMarked);
+        if (optionMarked.length > 0) {
+        newQuestions[idx].answer.status = 'answer_known';
+        console.log(newQuestions[idx].answer.status);
+        newQuestions[idx].answer.answer = optionMarked[0].optionText;
+        setQuestions(newQuestions);
+        }
+    }
+
     const deleteQuestion = (id) => {
         let newQuestions = [];
         questions.map((question, idx) => {
@@ -43,8 +66,18 @@ const QuestionForm = ({editingMode}) => {
     }
     const addEmptyOption = (idx) => {
         let newQuestions = [...questions];
-        newQuestions[idx].options.push({optionText: ''});
+        newQuestions[idx].options.push({optionText: '', checked: false});
         setQuestions(newQuestions);
+    }
+    const updateOptionStatus = (e, i, j) => {
+       if (questions[i].answer.status == 'answer_to_be_defined') {
+           questions[i].options.map((op) => op.checked = false);
+            const checked = e.target.checked ? true : false;
+            let newQuestions = [...questions];
+            newQuestions[i].options[j].checked = checked;
+            console.log(newQuestions[i].options[j]);
+            setQuestions(newQuestions);
+       }
     }
     return (
         <>
@@ -89,7 +122,7 @@ const QuestionForm = ({editingMode}) => {
                                     <div key={j} className="add_question_body">
                                         {
                                             (ques.questionType != 'text') ? 
-                                            <input type={ques.questionType} name={`question-${i}`} style={{ marginRight: '10px' }}/> :
+                                            <input type={ques.questionType} onClick={(e) => updateOptionStatus(e ,i, j)} name={`question-${i}`} style={{ marginRight: '10px' }}/> :
                                             <ShortText style={{ marginRight: '10px' }} />
                                         }
                                         <div>
@@ -118,10 +151,24 @@ const QuestionForm = ({editingMode}) => {
                             <div className="add_footer">
                                 {ques.questionType !== 'text' ?
                                 <div className="add_question_bottom_left" style={{ paddingTop: '17px' }}>
-                                    <Button size="small" style={{ textTransform: "none", color: '#4285f4', fontSize: '13px', fontWeight: '600' }}>
-                                        <QuestionAnswerIcon />
-                                         Answer Key
-                                    </Button>
+                                    {ques.questionType == 'radio' && 
+                                    <span>
+                                        {ques.answer.status == 'answer_to_be_defined' ?
+                                        <span>
+                                            {ques.answer.answer != '' && <p style={{color: 'red'}}>The correct answer is '{ques.answer.answer}'</p>}
+                                            <Button onClick={() => saveAnswer(i)} size="small" style={{ textTransform: "none", color: '#4285f4', fontSize: '13px', fontWeight: '600' }}>
+                                                <CheckBox />
+                                                Save
+                                            </Button>
+                                        </span>
+                                        :
+                                        <Button onClick={() => {defineAnswers(i)}} size="small" style={{ textTransform: "none", color: '#4285f4', fontSize: '13px', fontWeight: '600' }}>
+                                            <QuestionAnswerIcon />
+                                            Answer Key
+                                        </Button>
+                                        }
+                                    </span>
+                                    }
                                     <Tooltip title={`New ${ques.questionType} option`} arrow>
                                         <IconButton onClick={() => addEmptyOption(i)}>
                                             <Add /> 
