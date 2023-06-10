@@ -6,6 +6,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import {v4 as uuid} from 'uuid';
 import './QuestionForm.css';
+import DragIndicatorIcon from '@material-ui/icons/DragIndicator';
+import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
+
 
 const QuestionForm = ({editingMode}) => {
     const [questions, setQuestions] = useState([
@@ -88,6 +91,30 @@ const QuestionForm = ({editingMode}) => {
             setQuestions(newQuestions);
        }
     }
+
+    // const reorder = (list, startIndex, endIndex) => {
+    //     const result = Array.from(list);
+    //     const [removed] = result.splice(startIndex, 1);
+    //     result.splice(endIndex, 0, removed);
+    //     return result;
+    // }
+
+    // function HandleDragEnd(result) {
+    //     if(!result.destination) {
+    //         return;
+    //     }
+    //     var itemgg = [...questions];
+    //     const itemF = reorder(itemgg, result.source.index, result.destination.index);
+    //     setQuestions(itemF);
+    // }
+    const HandleDragEnd = (result) => {
+        const {destination, source} = result;
+        if(!result.destination) return;
+        const newItems = Array.from(questions);
+        const [reordered] = newItems.splice(source.index, 1);
+        newItems.splice(destination.index, 0 , reordered);
+        setQuestions(newItems);
+    } 
     return (
         <>
         <div className="question_form">
@@ -110,17 +137,33 @@ const QuestionForm = ({editingMode}) => {
             )}
                
 
-
-                {/* questions */}
+                <DragDropContext onDragEnd={HandleDragEnd}>
+                    <Droppable droppableId="droppable">
+                        {(provided, snapshot) => (
+                            <div
+                                {...provided.droppableProps}
+                                ref={provided.innerRef}
+                            >
+                                   {/* questions */}
             {editingMode ? questions.map((ques, i) => { 
                     return (
-                        <Accordion key={i} expanded={ques.open} className={ques.open && 'add_bolder'}>
+                        <Draggable key={i} draggableId={i + 'id'} index={i}>
+                            {(provided, snapshot) => (
+                                <div
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                >
+                                    <div>
+                                        <div style={{marginBottom: '0px'}}>
+                                            <div style={{width: '100%', marginBottom: '0px'}}>
+                                                <DragIndicatorIcon style={{transform: 'rotate(-90deg)', color: '#dae02e2', position: 'relative', left: '300px'}} fontSize="small" />
+                                            </div>
+                                            <Accordion key={i} expanded={ques.open} className={ques.open && 'add_bolder'}>
 
                         <div className="question_boxes">
                             <AccordionDetails className="add_question">
-                                    <div className="add_question_top">
-                                    {/* onFocus={ques.questionText !== '' ? ((e) => e.target.value = ques.questionText) : () =>{}} */}
-                                        <input type="text" className="question" placeholder={ques.questionText == '' ? "Type a Question": ques.questionText} onChange={(e) => {ques.questionText = e.target.value}} defaultValue={ques.questionText}></input>
+                                    <div className="add_question_top"><input type="text" className="question" placeholder={ques.questionText == '' ? "Type a Question": ques.questionText} onChange={(e) => {ques.questionText = e.target.value}} defaultValue={ques.questionText}></input>
                                         <CropOriginal style={{ color:'#5f6368' }} />
                                         <div>
                                         <Select className="select" defaultValue={ques.questionType} onChange={e =>{
@@ -134,9 +177,6 @@ const QuestionForm = ({editingMode}) => {
                                             <MenuItem id="radio" value="radio"><Radio style={{ margin: '0px', color: '#70757a' }} /> Multiple Choice</MenuItem>
                                         </Select>
                                         </div>
-                                        {/* <IconButton>
-                                        <Add />
-                                        </IconButton> */}
                                     </div>
                                     {ques.options.map((op, j) => {
                                         return (
@@ -220,7 +260,13 @@ const QuestionForm = ({editingMode}) => {
                                     </div>
                             </AccordionDetails>
                         </div>
-                    </Accordion>
+                    </Accordion> 
+                                        </div>
+                                    </div>
+
+                                </div>
+                            )}
+                        </Draggable>
                 ) 
     }) : questions.map((ques, i) => (
             <Accordion sx={{background: 'white'}}  key={i} expanded={ques.open} className={ques.open && 'add_bolder'}>
@@ -250,6 +296,13 @@ const QuestionForm = ({editingMode}) => {
                 </AccordionSummary>
             </Accordion>
             ))}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
+
+             
 
             </div>
         </div>
