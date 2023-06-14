@@ -228,13 +228,6 @@ const QuestionForm = ({editingMode}) => {
                 </AccordionSummary>
             </Accordion>
             ))}
-                                {provided.placeholder}
-                            </div>
-                        )}
-                    </Droppable>
-                </DragDropContext>
-
-             
 
             </div>
         </div>
